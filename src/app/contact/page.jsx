@@ -6,24 +6,34 @@ import emailjs from "@emailjs/browser";
 const ContactPage = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
+
   const text = "Say Hello";
 
   const form = useRef();
-
   const sendEmail = (e) => {
     e.preventDefault();
     setError(false);
     setSuccess(false);
     emailjs
-      .sendForm(
+      .send(
         "service_ttmo1ag",
         "template_yjvrfus",
-        form.current,
+        {
+          from_name: email,
+          to_name: "Code",
+          from_email: email,
+          to_email: "asdddghjh@gmail.com",
+          message,
+        },
         "9A-nUTcJBhbGcoAKZ"
       )
       .then(
         () => {
           setSuccess(true);
+          setMessage("");
+          setEmail("");
           form.current.reset();
         },
         () => {
@@ -69,6 +79,7 @@ const ContactPage = () => {
           <span>Dear Code Dev,</span>
           <textarea
             rows={6}
+            onChange={(e) => setMessage(e.target.value)}
             className="bg-transparent border-b-2 border-b-black outline-none resize-none"
             name="user_message"
           />
@@ -76,6 +87,8 @@ const ContactPage = () => {
           <input
             name="user_email"
             type="text"
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyUp={(e) => setEmail(e.target.value)}
             className="bg-transparent border-b-2 border-b-black outline-none"
           />
           <span>Regards</span>
